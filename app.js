@@ -15,7 +15,6 @@ slider.oninput = function () {
   output.innerHTML = `${this.value} x ${this.value}`;
   generateDivs(this.value);
 };
-// output.innerHTML = slider.value;
 generateDivs(16);
 
 function generateDivs(divs) {

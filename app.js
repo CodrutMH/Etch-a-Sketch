@@ -9,6 +9,8 @@ const clearModBtn = document.getElementById('clear-mod');
 let slider = document.getElementById('myRange');
 let output = document.getElementById('sizeValue');
 
+let paintMode = 'normal';
+
 slider.oninput = function () {
   output.innerHTML = `${this.value} x ${this.value}`;
   generateDivs(this.value);
@@ -28,11 +30,6 @@ function generateDivs(divs) {
     newDiv.addEventListener('mouseover', () => {
       newDiv.style.backgroundColor = 'red'; // Change color to red on hover
     });
-
-    //   newDiv.addEventListener('mouseout', () => {
-    //     newDiv.style.backgroundColor = 'transparent'; // Reset color on mouseout
-    //   });
-    // }
   }
 }
 
@@ -45,10 +42,35 @@ clearModBtn.addEventListener('click', () => {
 });
 
 eraser.addEventListener('click', () => {
-  const gridItems = document.querySelectorAll('.grid-item');
-  gridItems.forEach((gridItem) => {
-    gridItem.addEventListener('mouseover', () => {
-      gridItem.style.backgroundColor = 'white'; // Change color to red on hover
-    });
+  paintMode = 'eraser';
+});
+
+rainbowModBtn.addEventListener('click', () => {
+  paintMode = 'rainbow';
+});
+normalModBtn.addEventListener('click', () => {
+  paintMode = 'normal';
+});
+
+function paintRainbow() {
+  const red = Math.floor(Math.random() * 256);
+  const green = Math.floor(Math.random() * 256);
+  const blue = Math.floor(Math.random() * 256);
+
+  const randomColor = `rgb(${red}, ${green}, ${blue})`;
+
+  return randomColor;
+}
+const gridItems = document.querySelectorAll('.grid-item');
+
+gridItems.forEach((gridItem) => {
+  gridItem.addEventListener('mousemove', () => {
+    if (paintMode === 'rainbow') {
+      gridItem.style.backgroundColor = paintRainbow();
+    } else if (paintMode === 'eraser') {
+      gridItem.style.backgroundColor = 'white';
+    } else {
+      gridItem.style.backgroundColor = 'black';
+    }
   });
 });
